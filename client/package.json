@@ -5,19 +5,11 @@
 	"main": "postcss.config.js",
 	"scripts": {
 		"dev": "webpack serve --config webpack.dev.js",
-		"release:local": "webpack --env goal=cn --config webpack.prod.js",
-		"release:local:all": "npm run --prefix ../nzx-core/ release && webpack --env goal=cn --env copyCore --config webpack.prod.js",
-		"release:p": "webpack --env goal=p --config webpack.prod.js",
-		"release:p:all": "npm run --prefix ../nzx-core/ release && webpack --env goal=p --env copyCore --config webpack.prod.js",
-		"release:cn": "webpack --env goal=cn --config webpack.prod.js",
-		"release:cn:all": "npm run --prefix ../nzx-core/ release && webpack --env goal=cn --env copyCore --config webpack.prod.js",
-		"release:com": "webpack --env goal=com --config webpack.prod.js",
-		"release:com:all": "npm run --prefix ../nzx-core/ release && webpack --env goal=com --env copyCore --config webpack.prod.js"
+		"release:local": "webpack --config webpack.prod.js"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"exceljs": "^4.2.1",
 		"socket.io-client": "^4.1.3"
 	},
 	"devDependencies": {
@@ -25,15 +17,12 @@
 		"@babel/preset-env": "^7.14.4",
 		"autoprefixer": "^10.2.6",
 		"babel-loader": "^8.2.2",
-		"copy-webpack-plugin": "^9.0.0",
 		"core-js": "^3.14.0",
 		"css-loader": "^5.2.6",
 		"ejs-loader": "^0.5.0",
 		"file-loader": "^6.2.0",
 		"html-loader": "^2.1.2",
 		"html-webpack-plugin": "^5.3.1",
-		"less": "^4.1.1",
-		"less-loader": "^9.0.0",
 		"mini-css-extract-plugin": "^1.6.0",
 		"postcss-loader": "^5.3.0",
 		"sass": "^1.34.1",

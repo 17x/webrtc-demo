@@ -1,8 +1,11 @@
 {
 	"scripts": {
-		"run": "nodemon ./index.js"
+		"server": "nodemon ./index.js"
 	},
 	"dependencies": {
 		"socket.io": "^4.1.3"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.12"
 	}
 }
