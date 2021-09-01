@@ -2,7 +2,7 @@
 
 A Webrtc simplest usage sample, providing signaling server side and client side.
 
-checked project and npm installed package.json in two directories separately and read the following.
+check the project and npm install package.json in two directories separately. then read the following.
 
 **server side:**
 
