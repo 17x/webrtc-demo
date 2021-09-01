@@ -1,6 +1,6 @@
 # WebRTC-demo
 
-a Webrtc simplest usage sample, providing signaling server side and client side.
+A Webrtc simplest usage sample, providing signaling server side and client side.
 
 checked project and npm installed package.json in two directories separately and read the following.
 
