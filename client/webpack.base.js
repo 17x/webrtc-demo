@@ -7,7 +7,7 @@ const fs = require('fs');
 let pagesPath = './src/pages';
 let arr = [...fs.readdirSync(pagesPath)].filter(item=>{
     // console.log(item);
-    return item
+    return !item.startsWith('.')
 });
 
 let entrys = {};
@@ -49,27 +49,25 @@ plugins.push(...[
 ]);
 
 let modules = {
-    rules: [
+    rules : [
         {
             /*jsx 使用babel-jsx处理*/
             test : /\.js$/,
-            exclude: /(node_modules)|ejs$/,
+            exclude : /(node_modules)|ejs$/,
             use : {
                 loader : 'babel-loader'
             }
         },
         {
-            test: /\.html$/i,
-            loader: 'html-loader',
-/*            options: {
-                // Disables attributes processing
-                sources : {
-                    urlFilter : (attribute, value, resourcePath) => {
-                        return value.indexOf('plugins/sass/') === -1;
-                    }
-                },
-                esModule : false
-            }*/
+            test : /\.html$/i,
+            loader : 'html-loader'
+        },
+        {
+            test : /\.(mp4)$/i,
+            exclude : /node_modules/,
+            use : {
+                loader : 'file-loader',
+            }
         }
     ]
 };

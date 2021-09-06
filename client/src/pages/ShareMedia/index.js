@@ -1,6 +1,8 @@
 import UserMedia from '../../Component/UserMedia';
 import Signaling from '../../Component/Signaling';
 import Peer from '../../Component/Peer';
+import video1 from './1.mp4';
+import video2 from './2.mp4';
 
 const isTouch = /Android|iPhone|iPad|iPod|SymbianOS|Windows Phone/.test(navigator.userAgent);
 
@@ -101,24 +103,29 @@ async function Onload(){
     let studentId = isTouch ? 'student02' : 'student01';
 
     signaling.Join(studentId);
-
-    localStream = await UserMedia.GetAll();
-    if(!localStream.message){
-        UserMedia.MountVideo(localStream, localVideo);
-        localPeer.AddTracks(localStream);
-    } else{
-        console.error('Get permission error. ', localStream);
+    localVideo.src = isTouch ? video1 : video2
+    localVideo.oncanplay =() =>{
+        localPeer.AddTracks(localVideo.captureStream());
+        localVideo.muted = true
+        localVideo.play();
     }
-
 
     /**** remote  ****/
     const remoteStream = new MediaStream();
     const remoteVideo = _('#remoteVideo');
 
-    UserMedia.MountVideo(remoteStream,remoteVideo)
-
+    remoteVideo.oncanplay = () => {
+        // console.log('oncan play');
+        remoteVideo.muted = true;
+        remoteVideo.play();
+    };
     async function onPeerTrack(event){
+        console.log(event.track);
         remoteStream.addTrack(event.track);
+        UserMedia.MountVideo(remoteStream,remoteVideo);
+
+        // remoteVideo.muted = true
+        // remoteVideo.play();
     }
 
 };

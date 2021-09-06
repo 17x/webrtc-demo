@@ -1,14 +1,56 @@
 import UserMedia from '../../Component/UserMedia';
 import Signaling from '../../Component/Signaling';
 import Peer from '../../Component/Peer';
+import PaintBoard from '../../Component/PaintBoard';
 
 const isTouch = /Android|iPhone|iPad|iPod|SymbianOS|Windows Phone/.test(navigator.userAgent);
 
 const _ = (p) => document.querySelector(p);
+const _C = ({ tagName = 'div', id = null }) => {
+    let d = document.createElement(tagName);
+
+    if(id){
+        d.id = id;
+    }
+
+    return d
+};
 
 async function Onload(){
-    let localVideo = _('#localVideo');
+    let studentId = !isTouch ? 'student02' : 'student01';
+    let localVideo;
     let localStream;
+    let pb;
+    let remoteVideo
+    let remoteStream;
+
+    if(isTouch){
+        localVideo = _C({
+            tagName : 'canvas',
+            id : 'localVideo'
+        });
+        localStream = localVideo.captureStream();
+        document.body.append(localVideo);
+
+        pb = new PaintBoard({
+            canvas : localVideo,
+            logicalWidth : 500,
+            logicalHeight : 500
+            // enableHistory : true,
+            // historyInterval : 500,
+            // historyMax : 10,
+            // background : param.background && param.background.image && bgConfig,
+            // clearColor : param.background ? 'transparent' : '#ffffff'
+        });
+        pb.Tool('pen');
+    }else{
+        remoteVideo = _C({
+            tagName : 'video',
+            id : 'remoteVideo' });
+        remoteStream = new MediaStream();
+        document.body.append(remoteVideo);
+    }
+
     const iceCfg = {
         'iceServers' : [
             {
@@ -63,7 +105,7 @@ async function Onload(){
     };
 
     const onPeerIce = (ice) => {
-        // console.log('on local ice');
+        console.log('on local ice');
         signaling.SendIce({
             studentId,
             ice
@@ -98,27 +140,21 @@ async function Onload(){
         onSignalingAnswer,
         onSignalingICE
     });
-    let studentId = isTouch ? 'student02' : 'student01';
 
     signaling.Join(studentId);
 
-    localStream = await UserMedia.GetAll();
-    if(!localStream.message){
-        UserMedia.MountVideo(localStream, localVideo);
+    if(isTouch){
         localPeer.AddTracks(localStream);
-    } else{
-        console.error('Get permission error. ', localStream);
     }
-
-
     /**** remote  ****/
-    const remoteStream = new MediaStream();
-    const remoteVideo = _('#remoteVideo');
 
     UserMedia.MountVideo(remoteStream,remoteVideo)
 
     async function onPeerTrack(event){
+        console.log(event);
         remoteStream.addTrack(event.track);
+        remoteVideo.muted = true
+        remoteVideo.play()
     }
 
 };
