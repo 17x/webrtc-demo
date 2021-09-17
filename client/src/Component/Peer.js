@@ -33,7 +33,7 @@ class Peer{
     async CreateOffer(){
         let { pc } = this;
 
-        const offer = await pc.createOffer(Peer.offerOptions);
+        const offer = await pc.createOffer(Peer.offerOption);
         await pc.setLocalDescription(offer);
         return offer;
     }
